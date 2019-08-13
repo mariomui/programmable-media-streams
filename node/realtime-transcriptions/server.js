@@ -1,6 +1,8 @@
 'use strict';
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, './.env') });
+require('dotenv').config({
+  path: path.resolve(__dirname, './.env'),
+});
 console.log(process.env.NGROK_PORT);
 
 var http = require('http');
@@ -8,7 +10,10 @@ const urlParser = require('url');
 var HttpDispatcher = require('httpdispatcher');
 var WebSocketServer = require('websocket').server;
 const Speech = require('@google-cloud/speech');
-const { pug, ngrok } = require('./utils');
+const {
+  pug,
+  ngrok,
+} = require('./utils');
 const fs = require('fs');
 
 var dispatcher = new HttpDispatcher();
@@ -30,7 +35,9 @@ var mediaws = new WebSocketServer({
 ngrok
   .connectAndGetTunnelUrl(process.env.NGROK_PORT)
   .then(url => {
-    const options = { url: urlParser.parse(url).hostname };
+    const options = {
+      url: urlParser.parse(url).hostname,
+    };
     console.log(url);
 
     const filePath = path.resolve(__dirname, './templates/streamshb.pug');
@@ -48,7 +55,7 @@ ngrok
       console.log(new Date(), message, ...args);
     }
 
-    dispatcher.onPost('/twiml', function(req, res) {
+    dispatcher.onPost('/twiml', function (req, res) {
       log('POST TwiML');
 
       var filePath = path.join(__dirname + '/templates', 'streams.xml');
@@ -63,7 +70,7 @@ ngrok
       readStream.pipe(res);
     });
 
-    mediaws.on('connect', function(connection) {
+    mediaws.on('connect', function (connection) {
       log('Media WS: Connection accepted');
       new TranscriptionStream(connection);
     });
@@ -144,7 +151,7 @@ ngrok
       }
     }
 
-    wsserver.listen(process.env.NGROK_PORT, function() {
+    wsserver.listen(process.env.NGROK_PORT, function () {
       console.log(
         'Server listening on: http://localhost:%s',
         process.env.NGROK_PORT

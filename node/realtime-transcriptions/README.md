@@ -2,6 +2,15 @@
 
 This demo is a server application consuming audio from Twilio Programmable Media Streams and using Google Cloud Speech to perform realtime transcriptions.
 
+## What it does
+calls a phone number and transcribes
+
+## How to run
+* npm run start (star the server);
+* on the console `twilio api:core:calls:create --from="<+1#######>" --to="<+1#######>" --url="<https://***.ngroi.io/twiml>"`
+  * except in the --url portion of this, place the new ngrok url https://***.ngroi.io/twiml that is generated in the npm run start.
+
+
 ## App sever setup
 
 ### Enable Google Cloud Speech API
